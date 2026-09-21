@@ -35,6 +35,7 @@ export const es = {
   "onb.create": "Crear cuenta",
   "onb.createShort": "Crear cuenta",
   "onb.email": "Correo",
+  "onb.googleFailed": "No pudimos completar el ingreso con Google. Inténtalo de nuevo.",
   "onb.haveAccount": "Ya tengo cuenta",
   "onb.noAccount": "Aún no tengo cuenta",
   "onb.login": "Ingresar",

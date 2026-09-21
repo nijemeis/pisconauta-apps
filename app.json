@@ -64,7 +64,8 @@
           "microphonePermission": false
         }
       ],
-      "./plugins/withDarkNavBar"
+      "./plugins/withDarkNavBar",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": false

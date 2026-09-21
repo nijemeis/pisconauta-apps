@@ -107,6 +107,8 @@ export const api = {
     request<AuthResult>("POST", "/api/auth/signup", b),
   login: (b: { email: string; password: string }) => request<AuthResult>("POST", "/api/auth/login", b),
   logout: () => request<unknown>("POST", "/api/auth/logout"),
+  authProviders: () => request<{ google: boolean; apple: boolean }>("GET", "/api/auth/providers"),
+  exchangeCode: (code: string, verifier: string) => request<AuthResult>("POST", "/api/auth/exchange", { code, verifier }),
   me: () => request<Me>("GET", "/api/me"),
   deleteMe: () => request<unknown>("DELETE", "/api/me"),
   patchMe: (b: { displayName?: string; locale?: "es-PE" | "en"; theme?: "dark" | "light"; currency?: Currency }) => request<Me>("PATCH", "/api/me", b),

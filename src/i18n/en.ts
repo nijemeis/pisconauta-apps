@@ -37,6 +37,7 @@ export const en: Record<Key, string> = {
   "onb.create": "Create account",
   "onb.createShort": "Create account",
   "onb.email": "Email",
+  "onb.googleFailed": "We couldn't complete the Google sign-in. Please try again.",
   "onb.haveAccount": "I already have an account",
   "onb.noAccount": "No account yet",
   "onb.login": "Sign in",

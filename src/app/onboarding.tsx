@@ -1,8 +1,9 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { screenBottom } from "@/lib/insets";
+import { signInWithGoogle } from "@/lib/googleSignIn";
 import { ApiError, api } from "@/api/client";
 import { Chakana, SteppedBand } from "@/components/motifs";
 import { Body, Display, Field, FieldError, GoldButton, Mono, OutlineButton, TextAction } from "@/components/ui";
@@ -74,6 +75,20 @@ export default function Onboarding() {
   };
 
   const soon = () => toast(tr("common.soon"));
+
+  // Google is offered only when the server has it configured.
+  const [googleOn, setGoogleOn] = useState(false);
+  const [googleBusy, setGoogleBusy] = useState(false);
+  useEffect(() => { api.authProviders().then((p) => setGoogleOn(p.google)).catch(() => {}); }, []);
+  const google = async () => {
+    if (!googleOn) return soon();
+    if (googleBusy) return;
+    setGoogleBusy(true);
+    const out = await signInWithGoogle(role, locale === "en" ? "en" : "es").catch(() => ({ ok: false as const, reason: "failed" as const }));
+    setGoogleBusy(false);
+    if (out.ok) { await useSession.getState().signIn(out.auth); leave(out.auth.user?.role === "producer"); }
+    else if (out.reason === "failed") toast(tr("onb.googleFailed"));
+  };
   // Many Android phones have a shorter logical viewport than the 874pt design; tighten the rhythm so
   // the whole welcome screen (down to "explorar sin cuenta") fits without scrolling.
   const compact = useWindowDimensions().height < 860;
@@ -100,7 +115,7 @@ export default function Onboarding() {
             <GoldButton label={tr("onb.create")} onPress={() => setMode("signup")} />
             <View style={{ flexDirection: "row", gap: 8, marginTop: 10 }}>
               <OutlineButton label="Apple" mono={false} onPress={soon} style={{ flex: 1 }} pad={12} />
-              <OutlineButton label="Google" mono={false} onPress={soon} style={{ flex: 1 }} pad={12} />
+              <OutlineButton label={googleBusy ? "…" : "Google"} mono={false} onPress={google} style={{ flex: 1 }} pad={12} />
               <OutlineButton label={tr("onb.email")} mono={false} onPress={() => setMode("signup")} style={{ flex: 1 }} pad={12} />
             </View>
             <Pressable onPress={() => setMode("login")} hitSlop={10} style={{ marginTop: 18 }} accessibilityRole="button">
