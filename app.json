@@ -1,0 +1,73 @@
+{
+  "expo": {
+    "name": "Pisconauta",
+    "slug": "pisconauta",
+    "scheme": "pisconauta",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "backgroundColor": "#14100E",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "pe.pisconauta.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Pisconauta usa la cámara para reconocer etiquetas de pisco y fotografiar tus botellas.",
+        "NSPhotoLibraryUsageDescription": "Pisconauta accede a tus fotos para que subas imágenes de tus botellas.",
+        "NSAppTransportSecurity": {
+          "NSAllowsLocalNetworking": true
+        },
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "pe.pisconauta.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#14100E",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "permissions": [
+        "android.permission.CAMERA"
+      ],
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-image",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#14100E",
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 120
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Pisconauta usa la cámara para reconocer etiquetas de pisco y fotografiar tus botellas.",
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Pisconauta accede a tus fotos para que subas imágenes de tus botellas.",
+          "cameraPermission": "Pisconauta usa la cámara para fotografiar tus botellas.",
+          "microphonePermission": false
+        }
+      ],
+      "./plugins/withDarkNavBar"
+    ],
+    "experiments": {
+      "typedRoutes": false
+    }
+  }
+}
