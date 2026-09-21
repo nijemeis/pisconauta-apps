@@ -185,6 +185,7 @@ export const es = {
   "profile.theme": "Tema",
   "profile.language": "Idioma",
   "profile.currency": "Moneda",
+  "profile.haveBodega": "Tengo una bodega · publicar mis piscos",
   "profile.logout": "Cerrar sesión",
   "profile.signin": "Crear cuenta o ingresar",
 

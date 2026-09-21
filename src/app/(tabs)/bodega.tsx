@@ -131,7 +131,8 @@ export default function BodegaTab() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [membership?.id]));
 
-  if (!user || user.role !== "producer") {
+  // Aficionados can register a bodega too — the API upgrades them to producer when they do.
+  if (!user || user.role === "admin") {
     return (
       <View style={{ flex: 1, backgroundColor: t.bg, paddingTop: insets.top + 40, paddingHorizontal: GUTTER }}>
         <EmptyState title={tr("producer.onlyTitle")} body={tr("producer.onlyBody")} cta={user ? undefined : tr("onb.create")} onPress={() => router.push("/onboarding")} />

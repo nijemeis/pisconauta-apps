@@ -59,6 +59,10 @@ export function ProfileSheet() {
           />
         </View>
 
+        {user?.role === "enthusiast" ? (
+          <OutlineButton label={tr("profile.haveBodega")} onPress={() => { close(); router.push("/bodega"); }} />
+        ) : null}
+
         {/* Legal pages and the contact form live on the website. */}
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 18 }}>
           {([["/contacto", "Contacto"], ["/privacidad", "Privacidad"], ["/terminos", "Términos"]] as const).map(([path, label]) => (

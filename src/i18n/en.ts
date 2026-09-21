@@ -187,6 +187,7 @@ export const en: Record<Key, string> = {
   "profile.theme": "Theme",
   "profile.language": "Language",
   "profile.currency": "Currency",
+  "profile.haveBodega": "I have a bodega · publish my piscos",
   "profile.logout": "Sign out",
   "profile.signin": "Create account or sign in",
 
