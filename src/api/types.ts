@@ -108,6 +108,8 @@ export interface ProducerCard {
   valley: string | null;
   crestInitials: string;
   cover: string | null;
+  /** Square logo uploaded by the bodega (null → show the chakana + initials crest). */
+  logo: string | null;
   verified: boolean;
   status: ProducerStatus;
   avgRating: number | null;

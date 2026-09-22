@@ -60,7 +60,7 @@ export default function ProducerProfile() {
           <LinearGradient colors={["rgba(20,16,14,0)", t.name === "dark" ? "rgba(20,16,14,0.9)" : "rgba(247,241,230,0.92)"]} style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 90 }} />
         </View>
         <View style={{ alignItems: "center", marginTop: -43, paddingHorizontal: 20 }}>
-          <Crest initials={b.crestInitials} />
+          <Crest initials={b.crestInitials} logo={b.logo} />
           <Display size={32} center style={{ marginTop: 12 }} accessibilityRole="header">{b.name}</Display>
           <Mono size={10} ls={0.2} color={t.gold} center style={{ marginTop: 6 }}>{meta}</Mono>
           {b.description ? <Body size={12} lh={1.55} center color={t.ink3} style={{ marginTop: 12 }}>{b.description}</Body> : null}

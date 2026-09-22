@@ -164,7 +164,7 @@ export default function BodegaTab() {
           <>
             <SteppedBand style={{ marginTop: 16 }} opacity={0.6} />
             <View style={{ flexDirection: "row", gap: 16, alignItems: "center", marginTop: 18 }}>
-              <Crest initials={b.crestInitials} size={64} />
+              <Crest initials={b.crestInitials} logo={b.logo} size={64} />
               <View style={{ flex: 1, gap: 3 }}>
                 <Display size={26} numberOfLines={2}>{b.name}</Display>
                 <Mono size={10} ls={0.18} color={b.status === "verified" ? t.gold : b.status === "rejected" ? t.terracotta : t.muted}>
