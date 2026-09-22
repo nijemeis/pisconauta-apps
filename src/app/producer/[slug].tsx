@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Linking, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { screenBottom } from "@/lib/insets";
-import { api, mediaUrl } from "@/api/client";
+import { api, mediaUrl, mediaWidthFor } from "@/api/client";
 import { Crest } from "@/components/Crest";
 import { Stripes } from "@/components/motifs";
 import { Body, Display, ErrorState, Loading, Mono, OutlineButton, PhotoBox, TabsRow } from "@/components/ui";
@@ -26,7 +26,7 @@ export default function ProducerProfile() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const { data: b, error, loading, reload } = useFetch(() => api.producer(slug), [slug]);
   const [tab, setTab] = useState<Tab>("piscos");
-  const cover = mediaUrl(b?.cover, 1200);
+  const cover = mediaUrl(b?.cover, mediaWidthFor(402));
 
   const back = (
     <Pressable onPress={() => (router.canGoBack() ? router.back() : router.replace("/"))} hitSlop={14} accessibilityRole="button" accessibilityLabel={tr("common.back")}
@@ -83,7 +83,7 @@ export default function ProducerProfile() {
           <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 14, paddingHorizontal: 20, paddingTop: 18 }}>
             {b.piscos.length ? b.piscos.map((p) => (
               <Pressable key={p.id} onPress={() => router.push(`/pisco/${p.slug}`)} accessibilityRole="button" accessibilityLabel={p.name} style={{ width: "47.8%", flexGrow: 1, maxWidth: "48.2%", gap: 6 }}>
-                <PhotoBox src={p.photo} w={400} style={{ alignSelf: "stretch" }} />
+                <PhotoBox src={p.photo} style={{ alignSelf: "stretch" }} />
                 <Display size={18} numberOfLines={2}>{p.name}</Display>
                 <Mono size={10} ls={0.1} color={t.muted3}>{[p.vintage, abv(p.abvPct, locale), p.avgRating != null ? num(p.avgRating, locale) : null].filter(Boolean).join(" · ")}</Mono>
               </Pressable>

@@ -1,7 +1,7 @@
 import { Image } from "expo-image";
 import { useState } from "react";
 import { View, type StyleProp, type ViewStyle } from "react-native";
-import { mediaUrl } from "@/api/client";
+import { mediaUrl, mediaWidthFor, type MediaWidth } from "@/api/client";
 import { Stripes } from "@/components/motifs";
 import { useTheme } from "@/theme";
 
@@ -11,7 +11,8 @@ interface Props {
   width?: number;
   height?: number;
   /** Derivative width on the API ladder. */
-  w?: 200 | 400 | 600 | 1200;
+  /** Derivative width; defaults to whatever covers the box at this screen's pixel density. */
+  w?: MediaWidth;
   border?: boolean;
   style?: StyleProp<ViewStyle>;
   children?: React.ReactNode;
@@ -19,10 +20,10 @@ interface Props {
 }
 
 /** 3:4 bottle photo box. Shows the striped skeleton until the image is in (and when there is none). */
-export function PhotoBox({ src, width, height, w = 400, border, style, children, label }: Props) {
+export function PhotoBox({ src, width, height, w, border, style, children, label }: Props) {
   const t = useTheme();
   const [loaded, setLoaded] = useState(false);
-  const uri = src && /^(file|content|ph|data|blob):/.test(src) ? src : mediaUrl(src, w);
+  const uri = src && /^(file|content|ph|data|blob):/.test(src) ? src : mediaUrl(src, w ?? mediaWidthFor(typeof width === "number" ? width : 402));
   return (
     <View
       accessibilityLabel={label}

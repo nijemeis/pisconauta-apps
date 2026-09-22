@@ -16,7 +16,7 @@ export function PiscoRow({ pisco, onPress }: { pisco: PiscoCard; onPress?: () =>
   return (
     <Pressable onPress={onPress ?? (() => router.push(`/pisco/${pisco.slug}`))} accessibilityRole="button" accessibilityLabel={`${pisco.name}, ${pisco.producer.name}`}
       style={({ pressed }) => ({ flexDirection: "row", gap: 14, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: t.hair(0.08), opacity: pressed ? 0.8 : 1 })}>
-      <PhotoBox src={pisco.photo} width={56} height={80} w={200} />
+      <PhotoBox src={pisco.photo} width={56} height={80} />
       <View style={{ flex: 1, justifyContent: "center", gap: 3 }}>
         <Display size={21} numberOfLines={2}>{pisco.name}</Display>
         <Body size={12} color={t.ink4} numberOfLines={1}>{placeLine(pisco)}</Body>
@@ -37,7 +37,7 @@ export function PiscoRailCard({ pisco, width = 124, photoHeight = 150, nameSize 
   const locale = usePrefs((s) => s.locale);
   return (
     <Pressable onPress={() => router.push(`/pisco/${pisco.slug}`)} accessibilityRole="button" accessibilityLabel={`${pisco.name}, ${pisco.producer.name}`} style={{ width, gap: 6 }}>
-      <PhotoBox src={pisco.photo} width={width} height={photoHeight} w={400} />
+      <PhotoBox src={pisco.photo} width={width} height={photoHeight} />
       <Display size={nameSize} numberOfLines={2}>{pisco.name}</Display>
       <Mono size={10} ls={0.12} color={t.muted3} numberOfLines={1}>{`${pisco.producer.name} · ${rating(pisco.avgRating, locale)}`}</Mono>
     </Pressable>

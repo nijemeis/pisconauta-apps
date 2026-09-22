@@ -152,7 +152,7 @@ export default function Ficha() {
           <HeroGround />
           <SteppedBand opacity={t.name === "light" ? 0.55 : 0.75} />
           <View style={{ width: 188, height: 250, marginTop: 22 }}>
-            <PhotoBox src={p.photo} width={188} height={250} w={600} border label={p.name} />
+            <PhotoBox src={p.photo} width={188} height={250} border label={p.name} />
             <CornerBrackets />
           </View>
           <Pressable onPress={() => router.push(`/producer/${p.producerInfo.slug}`)} hitSlop={8} accessibilityRole="link" style={{ marginTop: 24 }}>
@@ -272,7 +272,7 @@ export default function Ficha() {
               <View style={{ flexDirection: "row", gap: 12 }}>
                 {p.siblings.slice(0, 3).map((s) => (
                   <Pressable key={s.id} onPress={() => router.push(`/pisco/${s.slug}`)} style={{ flex: 1, gap: 6 }} accessibilityRole="button" accessibilityLabel={s.name}>
-                    <PhotoBox src={s.photo} height={76 * 4 / 3} w={200} style={{ alignSelf: "stretch" }} />
+                    <PhotoBox src={s.photo} height={76 * 4 / 3} style={{ alignSelf: "stretch" }} />
                     <Display size={16} numberOfLines={2}>{s.name}</Display>
                     <Mono size={10} ls={0.1} color={t.muted3}>{[s.vintage, s.avgRating != null ? num(s.avgRating, locale) : null].filter(Boolean).join(" · ")}</Mono>
                   </Pressable>

@@ -29,7 +29,7 @@ function UploadSlot({ label, a11y, required, slot, onPress, onClear }: { label: 
     <View style={{ width: 96 }}>
       <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={a11y ?? label}
         style={{ width: 96, height: 132, borderWidth: 1, borderStyle: src ? "solid" : "dashed", borderColor: slot?.error ? t.error : required || src ? t.gold : t.hair(0.25), alignItems: "center", justifyContent: "center", gap: 8 }}>
-        {src ? <PhotoBox src={src} width={94} height={130} w={200} /> : (
+        {src ? <PhotoBox src={src} width={94} height={130} /> : (
           <>
             <Display size={24} color={required ? t.gold : t.ink4}>+</Display>
             <Mono size={10} ls={0.18} center color={required ? t.gold : t.muted2}>{label}</Mono>

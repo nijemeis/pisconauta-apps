@@ -65,7 +65,7 @@ export default function Discover() {
         <Pressable onPress={() => router.push(`/pisco/${feature.slug}`)} accessibilityRole="button" accessibilityLabel={`${tr("discover.cata")}: ${feature.name}`}
           style={{ marginHorizontal: GUTTER, marginTop: 20, borderWidth: 1, borderColor: t.goldA(0.3) }}>
           <LinearGradient colors={[t.goldA(0.14), t.goldA(0.02)]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ padding: 14, flexDirection: "row", gap: 14 }}>
-            <PhotoBox src={feature.photo} width={78} height={112} w={200} />
+            <PhotoBox src={feature.photo} width={78} height={112} />
             <View style={{ flex: 1, gap: 5 }}>
               <Mono size={10} ls={0.24} color={t.gold}>{tr("discover.cata")}</Mono>
               <Display size={26} numberOfLines={2}>{`${feature.name}`}</Display>

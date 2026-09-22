@@ -1,3 +1,4 @@
+import { PixelRatio } from "react-native";
 import type {
   ApiErrorBody, AuthResult, Currency, Rates, CellarPayload, CellarState, CriteriaScores, Discover, Facets, Me, PiscoDetail, PiscoInput,
   PiscoStyle, PlaceInput, PlaceListing, ProducerCard, ProducerDetail, ReviewItem, ScanResult, SearchResult, Sort, Taxonomy,
@@ -145,7 +146,16 @@ export const api = {
 };
 
 /** Absolute URL for an API-relative media path, optionally on the 200/400/600/1200 derivative ladder. */
-export function mediaUrl(path: string | null | undefined, w?: 200 | 400 | 600 | 1200): string | null {
+export type MediaWidth = 200 | 400 | 600 | 800 | 1200 | 1600;
+const LADDER: MediaWidth[] = [200, 400, 600, 800, 1200, 1600];
+
+/** Picks the derivative that covers `points` logical width at this device's pixel density. */
+export function mediaWidthFor(points: number): MediaWidth {
+  const px = points * PixelRatio.get();
+  return LADDER.find((w) => w >= px) ?? 1600;
+}
+
+export function mediaUrl(path: string | null | undefined, w?: MediaWidth): string | null {
   if (!path) return null;
   const abs = /^https?:/.test(path) ? path : API_URL + path;
   return w ? `${abs}${abs.includes("?") ? "&" : "?"}w=${w}` : abs;

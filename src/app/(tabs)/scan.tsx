@@ -163,7 +163,7 @@ function Scan() {
         <View style={{ backgroundColor: c.bg, borderTopWidth: 1, borderTopColor: c.goldA(0.3), padding: 20, gap: 14 }}>
           <Mono size={10} ls={0.22} color={c.gold}>{tr("scan.recognised")}</Mono>
           <View style={{ flexDirection: "row", gap: 14, alignItems: "center" }}>
-            <PhotoBox src={top.pisco.photo} width={62} height={86} w={200} />
+            <PhotoBox src={top.pisco.photo} width={62} height={86} />
             <View style={{ flex: 1, gap: 3 }}>
               <Display size={24} color={c.ink} numberOfLines={2}>{`${top.pisco.name}${top.pisco.vintage ? ` ${top.pisco.vintage}` : ""}`}</Display>
               <Body size={12} color={c.ink4} numberOfLines={1}>{placeLine(top.pisco)}</Body>

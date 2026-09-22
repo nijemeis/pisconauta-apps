@@ -95,7 +95,7 @@ function BottleRow({ pisco }: { pisco: PiscoCard }) {
   return (
     <Pressable onPress={() => router.push(`/bottle/${pisco.id}`)} accessibilityRole="button" accessibilityLabel={pisco.name}
       style={{ flexDirection: "row", gap: 14, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: t.hair(0.08) }}>
-      <PhotoBox src={pisco.photo} width={50} height={72} w={200} />
+      <PhotoBox src={pisco.photo} width={50} height={72} />
       <View style={{ flex: 1, gap: 5, justifyContent: "center" }}>
         <Display size={20} numberOfLines={2}>{pisco.name}</Display>
         <Mono size={10} ls={0.14} color={t.muted3}>{cardMeta(pisco, locale) || "—"}</Mono>

@@ -35,7 +35,7 @@ function Row({ item, onRemove }: { item: CellarItem; onRemove?: () => void }) {
   return (
     <Pressable onPress={() => router.push(`/pisco/${p.slug}`)} accessibilityRole="button" accessibilityLabel={p.name}
       style={{ flexDirection: "row", gap: 14, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: t.hair(0.08) }}>
-      <PhotoBox src={p.photo} width={50} height={72} w={200} />
+      <PhotoBox src={p.photo} width={50} height={72} />
       <View style={{ flex: 1, justifyContent: "center", gap: 3 }}>
         <Display size={20} numberOfLines={2}>{p.name}</Display>
         <Body size={12} color={t.ink4} numberOfLines={1}>{[p.producer.name, p.region?.name].filter(Boolean).join(" · ")}</Body>
