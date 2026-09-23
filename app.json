@@ -28,6 +28,7 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "permissions": [
+        "android.permission.CAMERA",
         "android.permission.CAMERA"
       ],
       "predictiveBackGestureEnabled": false
@@ -76,6 +77,12 @@
         "projectId": "5fa66035-19f9-42ed-a4a9-929c523e48c8"
       }
     },
-    "owner": "sensimity"
+    "owner": "sensimity",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/5fa66035-19f9-42ed-a4a9-929c523e48c8"
+    }
   }
 }

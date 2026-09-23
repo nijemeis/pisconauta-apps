@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PixelRatio } from "react-native";
 import type {
   ApiErrorBody, AuthResult, Currency, Rates, CellarPayload, CellarState, CriteriaScores, Discover, Facets, Me, PiscoDetail, PiscoInput,
@@ -30,7 +31,55 @@ function toError(status: number, json: unknown): ApiError {
   return new ApiError(status, e?.code ?? "server", e?.message ?? "Algo salió mal. Inténtalo de nuevo.", fields);
 }
 
+/**
+ * Read cache. Anonymous catalogue GETs are memoised in memory for a minute (instant tab
+ * switches and back navigation) and the heavy screens are also persisted, so a cold start
+ * renders the last catalogue while the network is still on its way. Any write clears it.
+ */
+const FRESH_MS = 60_000;
+const PERSIST_MS = 10 * 60_000;
+const PERSISTED = ["/api/discover", "/api/taxonomy", "/api/rates", "/api/piscos?", "/api/facets?", "/api/producers"];
+const memo = new Map<string, { at: number; value: unknown }>();
+const persistKey = (path: string) => `pn.cache:${path}`;
+export const clearReadCache = () => { memo.clear(); };
+
+async function readPersisted<T>(path: string): Promise<T | undefined> {
+  if (!PERSISTED.some((p) => path.startsWith(p))) return undefined;
+  try {
+    const raw = await AsyncStorage.getItem(persistKey(path));
+    if (!raw) return undefined;
+    const { at, value } = JSON.parse(raw) as { at: number; value: T };
+    return Date.now() - at < PERSIST_MS ? value : undefined;
+  } catch { return undefined; }
+}
+function writePersisted(path: string, value: unknown) {
+  if (!PERSISTED.some((p) => path.startsWith(p))) return;
+  AsyncStorage.setItem(persistKey(path), JSON.stringify({ at: Date.now(), value })).catch(() => {});
+}
+
 async function request<T>(method: string, path: string, body?: unknown, signal?: AbortSignal): Promise<T> {
+  // Cache only reads that don't depend on who is asking.
+  const cacheable = method === "GET" && !authToken && !path.startsWith("/api/me") && !path.startsWith("/api/cellar") && !path.startsWith("/api/admin");
+  const key = `${apiLanguage}:${path}`;
+  if (cacheable) {
+    const hit = memo.get(key);
+    if (hit && Date.now() - hit.at < FRESH_MS) return hit.value as T;
+    const persisted = await readPersisted<T>(key);
+    if (persisted !== undefined) {
+      memo.set(key, { at: Date.now(), value: persisted });
+      // Refresh in the background so the next visit is current.
+      fetchJson<T>(method, path, body).then((v) => { memo.set(key, { at: Date.now(), value: v }); writePersisted(key, v); }).catch(() => {});
+      return persisted;
+    }
+  } else if (method !== "GET") {
+    clearReadCache();
+  }
+  const value = await fetchJson<T>(method, path, body, signal);
+  if (cacheable) { memo.set(key, { at: Date.now(), value }); writePersisted(key, value); }
+  return value;
+}
+
+async function fetchJson<T>(method: string, path: string, body?: unknown, signal?: AbortSignal): Promise<T> {
   const headers: Record<string, string> = { Accept: "application/json", "Accept-Language": apiLanguage };
   if (authToken) headers.Authorization = `Bearer ${authToken}`;
   if (body !== undefined) headers["Content-Type"] = "application/json";

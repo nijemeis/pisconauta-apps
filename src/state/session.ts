@@ -1,6 +1,6 @@
 import * as SecureStore from "expo-secure-store";
 import { create } from "zustand";
-import { ApiError, api, setAuthToken } from "@/api/client";
+import { ApiError, api, clearReadCache, setAuthToken } from "@/api/client";
 import type { AuthResult, CellarState, Currency, Me } from "@/api/types";
 import type { ThemeName } from "@/theme/tokens";
 import { usePrefs, type Locale } from "./prefs";
@@ -71,7 +71,7 @@ export const useSession = create<Session>((set, get) => ({
   },
 
   signIn: async (r) => {
-    setAuthToken(r.token);
+    setAuthToken(r.token); clearReadCache();
     await SecureStore.setItemAsync(TOKEN_KEY, r.token).catch(() => {});
     set({ ...applyMe(r), cellarVersion: get().cellarVersion + 1 });
     adoptAccountPrefs(r);
@@ -79,7 +79,7 @@ export const useSession = create<Session>((set, get) => ({
 
   signOut: async () => {
     await api.logout().catch(() => {});
-    setAuthToken(null);
+    setAuthToken(null); clearReadCache();
     await SecureStore.deleteItemAsync(TOKEN_KEY).catch(() => {});
     set({ user: null, producers: [], tasted: {}, wishlist: {}, cellarVersion: get().cellarVersion + 1 });
   },
